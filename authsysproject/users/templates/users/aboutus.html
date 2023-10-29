@@ -2,8 +2,11 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<p></p>
 <div class="about-section">
-    <h1 class="section-title">About Us</h1>
+    <div class="center-text">
+        <h1 class="section-title underline-title">About Us</h1>
+    </div>
 </div>
 
 <div class="container">
@@ -57,6 +60,19 @@
 <style>
     .white-text {
         color: white;
+    }
+
+    .center-text {
+        text-align: center;
+    }
+
+    .underline-title {
+        text-decoration: underline; /* Add an underline to the title */
+    }
+    .underlined-text {
+        font-size: 36px; /* Set font size to make it big */
+        font-weight: bold; /* Set font weight to make it bold */
+        border-bottom: 2px solid white; /* Add a white border line at the bottom */
     }
 
     .section-title {
