@@ -10,7 +10,7 @@
     <script>
         // Function to update the image source with the camera stream
         function updateCameraStream() {
-            document.getElementById('camera-stream').src = '{% url "live_stream" %}';
+            document.getElementById('camera-stream').src = '{%url "live_stream"%}';
         }
 
         // Update the stream every 1000ms (1 second)
