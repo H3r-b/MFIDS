@@ -34,7 +34,7 @@
             <form class="d-flex" id="authstyle">
               {% if user.is_authenticated %}
                 <a href="{% url 'profile' %}" class="btn" style="color: white; background-color: #fd5e14;"type="submit" id="header-links"> Profile </a>
-                <a href="{% url 'logout' %}" class="btn" style="color: white; background-color: #fd5e14;"type="submit" id="header-links"> Logout </a>
+                <a href="{% url 'logout' %}" class="btn" style="color: white; background-color: #fd5e14; margin-left: 10px; "type="submit" id="header-links"> Logout </a>
               {% else %}
                 <a href="{% url 'register' %}" class="btn" style="color: white; background-color: #fd5e14;"type="submit" id="header-links"> Create Account </a>
                 <a href="{% url 'login' %}" class="btn" style="color: white; background-color: #fd5e14; margin-left: 10px; "type="submit" id="header-links">Log In</a>
