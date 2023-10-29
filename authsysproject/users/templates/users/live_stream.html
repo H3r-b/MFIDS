@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Raspberry Pi Camera Stream</title>
+</head>
+<body>
+    <h1>Raspberry Pi Camera Live Stream</h1>
+     <img id="camera-stream" src="#" style="width: 100%;">
+    
+    <script>
+        // Function to update the image source with the camera stream
+        function updateCameraStream() {
+            document.getElementById('camera-stream').src = '{% url "live_stream" %}';
+        }
+
+        // Update the stream every 1000ms (1 second)
+        setInterval(updateCameraStream, 1000); 
+</body>
+</html>

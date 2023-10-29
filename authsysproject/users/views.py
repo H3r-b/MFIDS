@@ -34,3 +34,6 @@ def profilemanage(request):
 def aboutus(request):
     # Your logic to gather data, if any
     return render(request, 'users/aboutus.html')
+
+def live_stream(request):
+    return render(request, 'users/live_stream.html')

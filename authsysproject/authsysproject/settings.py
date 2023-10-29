@@ -138,3 +138,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'home'
 
 LOGIN_URL = 'login'
+
+# Django camera settings
+CAMERA_RESOLUTION = (640, 480)  # Set your desired resolution
+CAMERA_FRAMERATE = 30  # Adjust as needed
