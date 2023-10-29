@@ -30,3 +30,7 @@ def profile(request):
 def profilemanage(request):
     # Your view logic here
     return render(request, 'users/profilemanage.html')
+
+def aboutus(request):
+    # Your logic to gather data, if any
+    return render(request, 'users/aboutus.html')
