@@ -368,7 +368,7 @@
   &:focus,
   &:hover {color: darken(#999, 13%);}
   }
-  #signup-button{
+  #signup-button {
     position: relative;
     border-radius: 20px;
     display: inline-block;
@@ -379,15 +379,61 @@
     background-color: #fd5e19;
     overflow: hidden;
     transition: 0.2s;
-  }
-  
-  #signup-button:hover{
+    color: #fff;
+}
+
+#signup-button:hover {
     color: #021f3b;
     font-size: 15px;
     border-radius: 6px;
     background-color: #ffcab1;
-    box-shadow: 0 0 10px #ff8248, 0 0 4px #ff8248,0 0 80px #ff8248;
+    box-shadow: 0 0 10px #ff8248, 0 0 4px #ff8248, 0 0 80px #ff8248;
     transition-delay: 0.1s;
     text-decoration: none;
     border-radius: 9px;
-  }
+}
+
+#signup-button:focus {
+    outline: none;
+}
+
+#signup-button:active {
+    transform: scale(0.95);
+}
+
+/* Apply the same styles to the "Sign In" button */
+#signin-button {
+    position: relative;
+    border-radius: 20px;
+    display: inline-block;
+    padding: 10px 25px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 13px;
+    background-color: #fd5e19;
+    overflow: hidden;
+    transition: 0.2s;
+    color: #fff;
+}
+
+#signin-button:hover {
+    color: #021f3b;
+    font-size: 15px;
+    border-radius: 6px;
+    background-color: #ffcab1;
+    box-shadow: 0 0 10px #ff8248, 0 0 4px #ff8248, 0 0 80px #ff8248;
+    transition-delay: 0.1s;
+    text-decoration: none;
+    border-radius: 9px;
+}
+
+#signin-button:focus {
+    outline: none;
+}
+
+#signin-button:active {
+    transform: scale(0.95);
+}
+
+
+  

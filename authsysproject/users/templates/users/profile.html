@@ -1,11 +1,165 @@
-
 {% extends 'users/base.html' %}
 {% load crispy_forms_tags %}
 
-
 {% block content %}
     <div class="container">
-        <h2>{{user.username}}</h2>
-    <h2>{{user.email}}</h2>
+        <h2>Welcome, {{ user.username }}</h2>
+        <div class="profile-header">
+            <div class="profile-left">
+                <div class="circle" style="background-image: url('https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg');"></div>
+                <h2 style="color: white;">{{ user.username }}</h2>
+                <p style="color: white;">{{ user.email }}</p>
+                <div class="manage-button-wrapper">
+                    <a href="{% url 'profilemanage' %}">Manage</a>
+                    <div class="manage-button-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                            <path d="M265.17 125.577l-80-80c-4.88-4.88-12.796-4.88-17.677 0-4.882 4.882-4.882 12.796 0 17.678l58.66 58.66H12.5c-6.903 0-12.5 5.598-12.5 12.5 0 6.903 5.597 12.5 12.5 12.5h213.654l-58.66 58.662c-4.88 4.882-4.88 12.796 0 17.678 2.44 2.44 5.64 3.66 8.84 3.66s6.398-1.22 8.84-3.66l79.997-80c4.883-4.882 4.883-12.796 0-17.678z"/>
+                        </svg>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="profile-right">
+                <div class="profile-box">
+                    <h3 style="color: white;">Devices</h3>
+                    <div class="device-container">
+                        <button class="big-button">
+                            <span style="color: white;">MFIDS</span>
+                        </button>
+                        <button class="big-button">
+                            <span style="color: white;" class="plus-sign">+</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <style>
+        .profile-header {
+            display: flex;
+        }
+
+        .profile-left {
+            width: 30%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .circle {
+            width: 100px;
+            height: 100px;
+            background-color: #00f;
+            border-radius: 50%;
+            background-size: cover;
+            margin: 0 auto;
+        }
+
+        .profile-right {
+            flex: 1;
+            margin-left: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .profile-box {
+            text-align: center;
+        }
+
+        .device-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .big-button {
+            width: calc(50% - 5px); /* Adjust for gap */
+            height: 150px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .big-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .plus-sign {
+            font-size: 60px;
+        }
+
+        .manage-button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .manage-button:hover {
+            background-color: #0056b3;
+        }
+
+        .manage-button-wrapper {
+            display: inline-block;
+            position: relative;
+        }
+        
+        .manage-button-wrapper a {
+            display: block;
+            width: 250px;
+            height: 50px;
+            line-height: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            background: #007ea7; /* Updated color */
+            text-align: center;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 3px solid #007ea7; /* Updated color */
+            border-radius: 10px; /* Rounded button */
+            transition: all .35s;
+        }
+        
+        
+        .manage-button-wrapper .manage-button-icon {
+            width: 50px;
+            height: 50px;
+            border: 3px solid transparent;
+            position: absolute;
+            transform: rotate(45deg);
+            right: 0;
+            top: 0;
+            z-index: -1;
+            transition: all .35s;
+        }
+        
+        .manage-button-wrapper .manage-button-icon svg {
+            width: 30px;
+            position: absolute;
+            top: calc(50% - 15px);
+            left: calc(50% - 15px);
+            transform: rotate(-45deg);
+            fill: #2ecc71;
+            transition: all .35s;
+        }
+        
+        .manage-button-wrapper a:hover {
+            width: 200px;
+            border: 3px solid #2ecc71;
+            background: transparent;
+            color: #2ecc71;
+        }
+        
+        .manage-button-wrapper a:hover + .manage-button-icon {
+            border: 3px solid #2ecc71;
+            right: -25%;
+        }
+        
+    </style>
 {% endblock %}
