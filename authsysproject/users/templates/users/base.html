@@ -19,14 +19,15 @@
   {% load static %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="main-navbar">
         <div class="container">
-          <a class="navbar-brand" href="{% url 'home' %}"><img class= "ECS_logo_img" style="height: 40px; width: 80px; max-width: fit-content;" src="static/users/images/4.png" alt="ECS" ></a>
+        
+          <a class="navbar-brand" href="{% url 'home' %}"><img class= "ECS_logo_img" style="height: 20% ; width:50%; max-width: fit-content;" src="{% static 'users/images/MFIDS.svg' %}" alt="ECS" ></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-              <a class="nav-link" href="#">Products</a>
+              <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+              <a class="nav-link" href="#">Products</a> 
               <a class="nav-link" href="#">About Us</a>
 
             </div>
