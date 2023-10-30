@@ -83,9 +83,9 @@ while True:
 
             cv.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 1)
 
-            cv.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv.FILLED)
+            cv.rectangle(frame, (left, bottom - 15), (right, bottom), (0, 0, 255), cv.FILLED)
             font = cv.FONT_HERSHEY_DUPLEX
-            cv.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+            cv.putText(frame, name, (left + 6, bottom - 6), font, 0.5, (255, 255, 255), 1)
 
         stream.set_frame(frame)
         if cv.waitKey(1) & 0xFF == ord('q'):
