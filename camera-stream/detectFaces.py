@@ -1,6 +1,7 @@
 import os
 import traceback
 from pathlib import Path
+from re import search
 
 import face_recognition
 import numpy as np
@@ -27,9 +28,12 @@ obama_image = face_recognition.load_image_file(str(Path(__file__).parent.absolut
 obama_face_encoding = face_recognition.face_encodings(obama_image)[0]
 
 # Load a second sample picture and learn how to recognize it.
-biden_image = face_recognition.load_image_file(str(Path(__file__).parent.absolute()) + "/Non-Intruder/biden.jpg")
+biden_image = face_recognition.load_image_file(str(Path(__file__).parent.absolute()) +"/Non-Intruder/biden.jpg")
 biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
 
+non_intruder_dir = Path(str(Path(__file__).parent.absolute()) + "/Non-Intruder/")
+for i in [f for f in non_intruder_dir.glob("*") if search(r"\bapng\b | \bavif\b | \bgif\b | \bjpg\b | \bjfif\b | \bpjpeg\b | \bpjp\b | \bpng\b | \bsvg\b | \bwebp\b", f.name)]:
+    print(i) 
 # Create arrays of known face encodings and their names
 known_face_encodings = [
     obama_face_encoding,
