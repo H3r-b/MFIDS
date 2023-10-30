@@ -1,8 +1,7 @@
 import os
 import traceback
 from pathlib import Path
-from re import search
-
+import re
 import face_recognition
 import numpy as np
 from mjpeg_streamer import MjpegServer, Stream
@@ -23,26 +22,18 @@ server = MjpegServer("localhost", 6006)
 server.add_stream(stream)
 server.start()
 
-# Load a sample picture and learn how to recognize it.
-obama_image = face_recognition.load_image_file(str(Path(__file__).parent.absolute()) + "/Non-Intruder/obama.jpg")
-obama_face_encoding = face_recognition.face_encodings(obama_image)[0]
-
-# Load a second sample picture and learn how to recognize it.
-biden_image = face_recognition.load_image_file(str(Path(__file__).parent.absolute()) +"/Non-Intruder/biden.jpg")
-biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
+known_face_encodings = []
+known_face_names = []
 
 non_intruder_dir = Path(str(Path(__file__).parent.absolute()) + "/Non-Intruder/")
-for i in [f for f in non_intruder_dir.glob("*") if search(r"\bapng\b | \bavif\b | \bgif\b | \bjpg\b | \bjfif\b | \bpjpeg\b | \bpjp\b | \bpng\b | \bsvg\b | \bwebp\b", f.name)]:
-    print(i) 
-# Create arrays of known face encodings and their names
-known_face_encodings = [
-    obama_face_encoding,
-    biden_face_encoding
-]
-known_face_names = [
-    "Barack Obama",
-    "Joe Biden"
-]
+image_pattern =  r"\.apng|\.avif|\.gif|\.jpg|\.jfif|\.pjpeg|\.pjp|\.png|\.svg|\.webp"
+image_re = re.compile(image_pattern)
+image_paths = [f for f in non_intruder_dir.glob("*") if image_re.search(f.name)]
+for i in image_paths:
+    
+    image = face_recognition.load_image_file(str(i))
+    known_face_encodings.append(face_recognition.face_encodings(image)[0])
+    known_face_names.append(i.stem)
 
 # Initialize some variables
 face_locations = []
@@ -90,7 +81,7 @@ while True:
             bottom *= 4
             left *= 4
 
-            cv.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
+            cv.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 1)
 
             cv.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv.FILLED)
             font = cv.FONT_HERSHEY_DUPLEX
