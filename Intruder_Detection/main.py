@@ -11,8 +11,8 @@ if __name__ == "__main__":
     solenoid_thread.start()
     
     def quit(detect_thread, solenoid_thread):
-        # print("Releasing Camera")
-        # camera_stream.detect_faces.cap.release()
+        print("Releasing camera")
+        camera_stream.detect_faces.cap.release()
         
         print("Stopping server")
         camera_stream.detect_faces.stream_server.stop()

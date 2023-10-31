@@ -1,4 +1,4 @@
-# import os
+import os
 import re
 import traceback
 from pathlib import Path
@@ -9,14 +9,14 @@ import face_recognition
 import numpy as np
 from mjpeg_streamer import MjpegServer, Stream
 
-# os.environ["OPENCV_VIDEOIO_DEBUG"] = "1"
-# os.environ["OPENCV_LOG_LEVEL"] = "d"
+os.environ["OPENCV_VIDEOIO_DEBUG"] = "1"
+os.environ["OPENCV_LOG_LEVEL"] = "d"
 import cv2 as cv
 
 run_detection = Event()
 run_detection.set()
 
-# cap = None
+cap = None
 stream_server = None
 
 enable_solenoid = Event()
@@ -40,10 +40,10 @@ def detect(
     stream_server.add_stream(stream)
     stream_server.start()
 
-    # cap = cv.VideoCapture(0)
-    # cap.set(cv.CAP_PROP_FRAME_WIDTH, widthCamera)
-    # cap.set(cv.CAP_PROP_FRAME_HEIGHT, heightCamera)
-    # cap.set(cv.CAP_PROP_FPS, fps)
+    cap = cv.VideoCapture("rtmp://localhost:1935/mystream")
+    cap.set(cv.CAP_PROP_FRAME_WIDTH, widthCamera)
+    cap.set(cv.CAP_PROP_FRAME_HEIGHT, heightCamera)
+    cap.set(cv.CAP_PROP_FPS, fps)
 
 
     known_face_encodings = []
@@ -65,12 +65,13 @@ def detect(
     face_names = []
     process_this_frame = True
 
-    while run_detection.is_set(): # and cap.isOpened():
+    while run_detection.is_set() and cap.isOpened():
         try:
             # Grab a single frame of video
-            # ret, frame = cap.read()
-            unknown_image_dir = Path(str(Path(__file__).parent.absolute()) + "/Unknown/Unknown.jpg")
-            frame = cv.imread(str(unknown_image_dir))
+            ret, frame = cap.read()
+            # unknown_image_dir = Path(str(Path(__file__).parent.absolute()) + "/Unknown/Unknown.jpg")
+            # frame = cv.imread(str(unknown_image_dir))
+            frame = cv.flip(frame, 1)
 
             # Only process every other frame of video to save time
             if process_this_frame:
@@ -144,7 +145,7 @@ if __name__ == "__main__":
             control.solenoid_running.clear()
             enable_solenoid.notify()
 
-            # cap.release()
+            cap.release()
             stream_server.stop()
             
             detect_thread.join()
