@@ -37,3 +37,6 @@ def aboutus(request):
 
 def live_stream(request):
     return render(request, 'users/live_stream.html')
+
+def error_404(request,exception):
+        return render(request, 'users/404.html' , status=404)
