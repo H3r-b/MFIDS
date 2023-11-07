@@ -40,7 +40,7 @@ def detect(
     stream_server.add_stream(stream)
     stream_server.start()
 
-    cap = cv.VideoCapture("rtmp://localhost:1935/mystream")
+    # cap = cv.VideoCapture(0)
     cap.set(cv.CAP_PROP_FRAME_WIDTH, widthCamera)
     cap.set(cv.CAP_PROP_FRAME_HEIGHT, heightCamera)
     cap.set(cv.CAP_PROP_FPS, fps)
@@ -130,6 +130,7 @@ def detect(
 
 if __name__ == "__main__":
     from threading import Thread
+
     # from ..solenoid import control
     from ..solenoid import control
 
