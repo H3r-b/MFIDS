@@ -347,8 +347,8 @@
   border-radius: 0;
   &:focus {border-color: #111;}
   }
-  [type="text"] {color: #111;}
-  [type="password"] {color: #111;}
+  [type="text"] {color: #fff;}
+  [type="password"] {color: #fff;}
   .btn--form {
   padding: .5rem 2.5rem;
   font-size: .95rem;
@@ -399,6 +399,14 @@
 
 #signup-button:active {
     transform: scale(0.95);
+}
+
+.white-text-input {
+  color: white !important; /* Add !important to ensure the style takes precedence */
+}
+
+#id_email {
+    color: white !important;
 }
 
 /* Apply the same styles to the "Sign In" button */
