@@ -1,6 +1,6 @@
 {% extends 'users/base.html' %}
 {% load static %}
-
+{% load crispy_forms_tags %}
 {% block content %}
     <link rel="stylesheet" href="{% static 'users/css/main.css' %}">
     <title>LogIn - MFIDS</title>
@@ -9,7 +9,9 @@
         {% csrf_token %}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4" style="color: white;">Sign In Now</legend>
-            <div class="form-group">
+            <p></p>
+            {{ form|crispy }}
+            {% comment %} <div class="form-group">
                 <label for="{{ form.username.id_for_label }}"><b>Username</b></label>
                 <input type="text" class="form-control" placeholder="Enter Username" name="{{ form.username.name }}" required>
             </div>
@@ -17,9 +19,8 @@
             <div class="form-group">
                 <label for="{{ form.password.id_for_label }}"><b>Password</b></label>
                 <input type="password" class="form-control" placeholder="Enter Password" name="{{ form.password.name }}" required>
-            </div>
+            </div> {% endcomment %}
         </fieldset>
-
         <p></p>
         <div>
             <button class="btn btn-primary signin-button" id="signup-button">Sign In</button>
