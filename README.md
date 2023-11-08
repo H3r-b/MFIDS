@@ -47,6 +47,10 @@ Our commitment to this vision is unwavering. We continuously innovate and adapt 
 
 ## Getting Started
 
+Install
+- Django
+- bootstrap4
+
 **To be Released Soon**
 
 
