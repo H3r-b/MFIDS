@@ -47,11 +47,16 @@ Our commitment to this vision is unwavering. We continuously innovate and adapt 
 
 ## Getting Started
 
-Install
+Install the following
+
 - Django
 - bootstrap4
-
-**To be Released Soon**
+- opencv-python
+- django
+- django-crispy-forms 
+- mjpeg-streamer 
+- face-recognition
+- crispy-bootstrap4 
 
 
 ## License
