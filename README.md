@@ -44,6 +44,9 @@ Our commitment to this vision is unwavering. We continuously innovate and adapt 
 ## Key Features
 
 - W security
+- Cam take nice pic
+- it detect u
+- u can become obama
 
 ## Getting Started
 
