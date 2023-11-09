@@ -1,5 +1,5 @@
 #bg{
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-size: cover;
     background-attachment: fixed;
   }
@@ -15,11 +15,10 @@
   #header-text{
     color: white;
     font-family: 'Open Sans', sans-serif;
-    font-size: 50px;
+    /* font-size: 50px; */
     margin-top: 100px;
   }
   #header-image{
-    margin-top: 30px;
     margin-top: 30px;
   }
   #header-paragraph{

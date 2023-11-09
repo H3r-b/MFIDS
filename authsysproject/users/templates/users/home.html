@@ -1,19 +1,36 @@
-{% extends 'users/base.html' %}
-{% load static %}
-{% block content %}
-    <link rel="stylesheet" href="{% static 'users/css/main.css' %}">
-    <!-- Set the title to "Home" (or any desired title) -->
-    <title>Home - MFIDS</title>
+{% extends 'users/base.html' %} {% load static %} {% block content %}
+<link rel="stylesheet" href="{% static 'users/css/main.css' %}" />
+<!-- Set the title to "Home" (or any desired title) -->
+<title>Home - MFIDS</title>
 
-    <div class="container">
-            <div class="row g-0">
-                <div class="col-7" id="header-text">
-                  <h1 id="header-h1">Multi-Faceted <br> Intruder Identification System. </h1>
-                  <p id="header-paragraph">Multi-Faceted: Where Security Meets Precision, <br> Authorised by VIT-AP(Not really)</p>
-                  <a class="btn" style="color: white; background-color: #fd5e14;"type="submit" id="body-link-row" href="{% url 'aboutus' %}">Discover More</a>
-                </div>
-
-                <div class="col-5 d-flex flex-wrap align-items-center" id="header-image"><img src="{% static 'users/images/aifaceting.svg' %}" alt="ECS"></div>
-              </div>
+<div class="container">
+  <div class="row g-0">
+    <div class="col-7" id="header-text">
+      <h1 class="display-3">
+        Multi-Faceted <br>
+        Intruder Detection System
+      </h1>
+      <p class="h6">
+        Where Security Meets Precision, <br>
+        Authorised by VIT-AP(Not really)
+      </p>
+      <a
+        class="btn"
+        style="color: white; background-color: #fd5e14"
+        type="submit"
+        id="body-link-row"
+        href="{% url 'aboutus' %}"
+        >Discover More</a
+      >
     </div>
+
+    <div class="col-5 d-flex flex-wrap align-items-center" id="header-image">
+      <img
+        class="img-fluid"
+        src="{% static 'users/images/ai.png' %}"
+        alt="ECS"
+      />
+    </div>
+  </div>
+</div>
 {% endblock content %}
