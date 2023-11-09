@@ -1,3 +1,5 @@
+- host website elsewhere
+    - send stream from pi to server
 - General admin instead of a localized one
 - user perm shi
     - restart
