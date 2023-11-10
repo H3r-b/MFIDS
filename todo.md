@@ -1,8 +1,8 @@
-##To Do List (╬▔皿▔)╯
+# To Do List (╬▔皿▔)╯
 - host website elsewhere
     - send stream from pi to server
 - General admin instead of a localized one
-- user perm shi
+- user perm
     - restart
     - shut down
     - turn on/off camera
