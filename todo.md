@@ -2,6 +2,7 @@
 - host website elsewhere
     - send stream from pi to server
 - General admin instead of a localized one
+- Embed stream in page
 - user perm
     - restart
     - shut down

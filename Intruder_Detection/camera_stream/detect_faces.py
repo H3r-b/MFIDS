@@ -72,6 +72,7 @@ class detect_and_stream_thread(threading.Thread):
         self.camera_settings.camera_width = camera_width
         self.camera_settings.camera_height = camera_height
         self.camera_settings.camera_fps = camera_fps
+        self.cap = None
 
         # Intialize stream to push frames after processing
         self.stream_settings.stream_name = stream_name
@@ -81,6 +82,8 @@ class detect_and_stream_thread(threading.Thread):
         self.stream_settings.stream_fps = stream_fps
         self.stream_settings.stream_push = stream_push
         self.stream_settings.stream_push_port = stream_push_port
+        self.stream = None
+        self.stream_server = None
 
         # Load faces
         self.known_face_encodings = []
@@ -108,6 +111,7 @@ class detect_and_stream_thread(threading.Thread):
         camera_fps: int = camera_settings.camera_fps,
     ) -> None:
         self.cap = cv.VideoCapture(camera_read)
+        print(self.cap)
         self.cap.set(cv.CAP_PROP_FRAME_WIDTH, camera_width)
         self.cap.set(cv.CAP_PROP_FRAME_HEIGHT, camera_height)
         self.cap.set(cv.CAP_PROP_FPS, camera_fps)
@@ -123,7 +127,7 @@ class detect_and_stream_thread(threading.Thread):
         stream_fps: int = stream_settings.stream_fps,
     ):
         self.stream = Stream(
-            stream_push,
+            name=stream_name,
             size=(stream_width, stream_height),
             quality=stream_quality,
             fps=stream_fps,
@@ -240,13 +244,14 @@ class detect_and_stream_thread(threading.Thread):
 
 if __name__ == "__main__":
     run = threading.Event()
-    run.set()
     hardware = threading.Event()
     hardware.set()
     name_queue = Queue()
-    cam = detect_and_stream_thread(run, hardware, name_queue=name_queue, read_from="Capture")
+    cam = detect_and_stream_thread(
+        run, hardware, name_queue=name_queue, read_from="Capture"
+    )
     cam.start()
     while input("Quit? [y/n]:") != "y":
-        pass
+        ...
     cam.quit()
     cam.join()
