@@ -37,7 +37,6 @@ class detect_and_stream_thread(threading.Thread):
 
     def __init__(
         self,
-        run_event: threading.Event,
         hardware_event: threading.Event,
         name_queue: Queue,
         read_from: Literal["Capture-OCV", "Capture-Pi", "Test"] = "Test",
@@ -56,7 +55,7 @@ class detect_and_stream_thread(threading.Thread):
         super().__init__()
 
         # Stopping thread on signal
-        self.run_event = run_event
+        self.run_event = threading.Event()
         self.run_event.set()
         # Event for hardware signals
         self.hardware_event = hardware_event
@@ -115,6 +114,12 @@ class detect_and_stream_thread(threading.Thread):
         camera_height: int = camera_settings.camera_height,
         camera_fps: int = camera_settings.camera_fps,
     ) -> None:
+        
+        self.camera_settings.camera_read = camera_read
+        self.camera_settings.camera_width = camera_width
+        self.camera_settings.camera_height = camera_height
+        self.camera_settings.camera_fps = camera_fps
+
         match self.read_from:
             case "Capture-OCV":
                 self.cap = cv.VideoCapture(camera_read)
@@ -137,6 +142,14 @@ class detect_and_stream_thread(threading.Thread):
         stream_quality: int = stream_settings.stream_quality,
         stream_fps: int = stream_settings.stream_fps,
     ):
+        self.stream_settings.stream_name = stream_name
+        self.stream_settings.stream_width = stream_width
+        self.stream_settings.stream_height = stream_height
+        self.stream_settings.stream_quality = stream_quality
+        self.stream_settings.stream_fps = stream_fps
+        self.stream_settings.stream_push = stream_push
+        self.stream_settings.stream_push_port = stream_push_port
+
         self.stream = Stream(
             name=stream_name,
             size=(stream_width, stream_height),
@@ -148,6 +161,7 @@ class detect_and_stream_thread(threading.Thread):
 
     def run(self) -> None:
         frames_skipped = 0
+        time_per_frame = 1/self.camera_settings.camera_fps
         match self.read_from:
             case "Capture-OCV" | "Capture-Pi":
                 self.__set_camera__()
@@ -156,7 +170,6 @@ class detect_and_stream_thread(threading.Thread):
         while self.run_event.is_set():
             try:
                 start_time = time()
-                time_per_frame = 1/self.camera_settings.camera_fps
                 # Grab a single frame
                 match self.read_from:
                     case "Test":
@@ -242,7 +255,7 @@ class detect_and_stream_thread(threading.Thread):
                     if (
                         any([i != "Unknown" for i in face_names])
                         and not self.hardware_event.is_set()
-                    ):
+                    ):  
                         self.name_queue.put(face_names)
                         self.hardware_event.set()
 
@@ -250,10 +263,11 @@ class detect_and_stream_thread(threading.Thread):
                 
                 # maintaining framerate
                 while (time() - start_time) <= time_per_frame:
-                    ...
+                    sleep(0.01)
             except BaseException as e:
                 traceback.print_exception(e)
-                self.quit()
+                if self.run_event.is_set():
+                    self.quit()
 
     def quit(self):
         if self.is_alive():
@@ -270,12 +284,11 @@ class detect_and_stream_thread(threading.Thread):
 
 
 if __name__ == "__main__":
-    run = threading.Event()
     hardware = threading.Event()
     hardware.set()
     name_queue = Queue()
     cam = detect_and_stream_thread(
-        run, hardware, name_queue=name_queue, read_from="Capture-OCV"
+        hardware, name_queue=name_queue, read_from="Capture-OCV"
     )
     cam.start()
     while input("Quit? [y/n]:") != "y":

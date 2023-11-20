@@ -1,25 +1,25 @@
 
 if __name__ == "__main__":
     import traceback
-    from threading import Thread
+    import threading
     import solenoid.control
     import camera_stream.detect_faces
+    from queue import Queue
     
-    detect_thread = Thread(target=camera_stream.detect_faces.detect)
-    solenoid_thread = Thread(target=solenoid.control.solenoid_loop, kwargs={"activate": camera_stream.detect_faces.enable_solenoid, "queue": camera_stream.detect_faces.name_queue})
+    hardware = threading.Event()
+    name_queue = Queue()
+
+    detect_thread = camera_stream.detect_faces.detect_and_stream_thread(hardware_event=hardware, name_queue=name_queue, read_from="Capture-OCV")
+    solenoid_thread = threading.Thread(target=solenoid.control.solenoid_loop, kwargs={"activate": hardware, "queue": name_queue})
     detect_thread.start()
     solenoid_thread.start()
     
     def quit(detect_thread, solenoid_thread):
-        # print("Releasing camera")
-        # camera_stream.detect_faces.cap.release()
-        
+        print("Releasing detecting and streaming thread")
         print("Stopping server")
-        camera_stream.detect_faces.stream_server.stop()
+        detect_thread.quit()
 
         print("Setting to dont run")
-        camera_stream.detect_faces.run_detection.clear()
-        camera_stream.detect_faces.enable_solenoid.set()
         solenoid.control.solenoid_running.clear()
         
         print("Joining threads")
