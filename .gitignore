@@ -223,3 +223,11 @@ Temporary Items
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+
+# Images of individuals
+Intruder_Detection/camera_stream/Unknown/*
+Intruder_Detection/camera_stream/Non_Intruder/*
+
+# lsyncd
+lsyncd/tmp/

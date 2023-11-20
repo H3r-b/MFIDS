@@ -1,10 +1,10 @@
 import traceback
+from os import uname
 from queue import Queue
 from threading import Event
 from time import sleep
-import os
-linux = os.uname().sysname == "Linux"
-if linux:
+
+if linux:= uname().sysname == "Linux":
     import RPIO.GPIO as GPIO
 
 solenoid_running = Event()
@@ -25,7 +25,7 @@ def solenoid_loop(activate: Event, queue: Queue):
             sleep(8.5)
             print("Closing Door")
             if linux:
-                GPIO.output(18,1)
+                GPIO.output(18,0)
             activate.clear()
         except BaseException as e:
             traceback.print_exception(e)
