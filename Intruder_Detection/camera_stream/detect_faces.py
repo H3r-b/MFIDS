@@ -1,5 +1,5 @@
 import re
-import threading
+from threading import Thread, Event
 import traceback
 from dataclasses import dataclass
 from os import uname
@@ -11,13 +11,11 @@ from typing import Literal
 import cv2 as cv
 import face_recognition
 import numpy as np
+from aiohttp.web_runner import GracefulExit
 from mjpeg_streamer import MjpegServer, Stream
 
-if linux:= uname().sysname == "Linux":
-    from picamera2 import Picamera2
 
-
-class detect_and_stream_thread(threading.Thread):
+class detect_and_stream_thread(Thread):
     @dataclass
     class camera_settings:
         camera_read: int | str = 0
@@ -37,7 +35,7 @@ class detect_and_stream_thread(threading.Thread):
 
     def __init__(
         self,
-        hardware_event: threading.Event,
+        hardware_event: Event,
         name_queue: Queue,
         read_from: Literal["Capture-OCV", "Capture-Pi", "Test"] = "Test",
         camera_read: int | str = camera_settings.camera_read,
@@ -54,8 +52,13 @@ class detect_and_stream_thread(threading.Thread):
     ) -> None:
         super().__init__()
 
+        # Check if running in pi
+        if linux := uname().sysname == "Linux":
+            from picamera2 import Picamera2
+        self.linux = linux
+
         # Stopping thread on signal
-        self.run_event = threading.Event()
+        self.run_event = Event()
         self.run_event.set()
         # Event for hardware signals
         self.hardware_event = hardware_event
@@ -130,6 +133,8 @@ class detect_and_stream_thread(threading.Thread):
                 self.cap = Picamera2()
                 self.cap.preview_configuration.main.size = (camera_width, camera_height)
                 self.cap.preview_configuration.main.format = "RGB888"
+                self.cap.config("preview")
+                self.cap.start()
 
 
     def __set_stream__(
@@ -167,8 +172,8 @@ class detect_and_stream_thread(threading.Thread):
                 self.__set_camera__()
         self.__set_stream__()
         self.stream_server.start()
-        while self.run_event.is_set():
-            try:
+        try:
+            while self.run_event.is_set():
                 start_time = time()
                 # Grab a single frame
                 match self.read_from:
@@ -264,27 +269,34 @@ class detect_and_stream_thread(threading.Thread):
                 # maintaining framerate
                 while (time() - start_time) <= time_per_frame:
                     sleep(0.01)
-            except BaseException as e:
+        except Exception as e:
+            if type(e) != GracefulExit:
                 traceback.print_exception(e)
-                if self.run_event.is_set():
-                    self.quit()
+                self.quit()
 
     def quit(self):
         if self.is_alive():
             self.run_event.clear()
+            while self.is_alive():
+                sleep(0.01)
             match self.read_from:
                 case "Capture-OCV":
                     self.cap.release()
                 case "Capture-PI":
                     self.cap.stop()
                     self.cap.close()
-            self.stream_server.stop()
+            print("Released camera")
+            try:
+                self.stream_server.stop()
+            except GracefulExit:
+                pass
+            print("Stopped server")
         else:
             raise RuntimeError("Thread was not running when quit was performed.")
 
 
 if __name__ == "__main__":
-    hardware = threading.Event()
+    hardware = Event()
     hardware.set()
     name_queue = Queue()
     cam = detect_and_stream_thread(
