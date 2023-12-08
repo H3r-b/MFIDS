@@ -100,7 +100,7 @@ ipython_config.py
 #   This is especially recommended for binary packages to ensure reproducibility, and is more
 #   commonly ignored for libraries.
 #   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
-#poetry.lock
+poetry.lock
 
 # pdm
 #   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
@@ -223,3 +223,11 @@ Temporary Items
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+
+# Images of individuals
+Intruder_Detection/camera_stream/Unknown/*
+Intruder_Detection/camera_stream/Non_Intruder/*
+
+# lsyncd
+lsyncd/tmp/
