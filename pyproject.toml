@@ -7,13 +7,22 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.12"
-opencv-python = "^4.8.1.78"
+
+[tool.poetry.group.mfids-site]
+optional = true
+
+[tool.poetry.group.mfids-site.dependencies]
 django = "^4.2.6"
 django-crispy-forms = "^2.1"
-mjpeg-streamer = "^2023.10.14"
-face-recognition = "^1.3.0"
 crispy-bootstrap4 = "^2023.1"
 
+[tool.poetry.group.mfids-detect]
+optional = true
+
+[tool.poetry.group.mfids-detect.dependencies]
+opencv-python = "^4.8.1.78"
+mjpeg-streamer = "^2023.10.14"
+face-recognition = "^1.3.0"
 
 [build-system]
 requires = ["poetry-core"]
