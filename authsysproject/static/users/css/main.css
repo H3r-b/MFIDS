@@ -416,6 +416,10 @@ body {
     color: white !important;
 }
 
+#id_email:focus {
+  color: rgb(0, 0, 0) !important;
+}
+
 /* Apply the same styles to the "Sign In" button */
 #signin-button {
     position: relative;
