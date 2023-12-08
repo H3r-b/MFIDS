@@ -1,9 +1,12 @@
-from dataclasses import dataclass
 import traceback
+from dataclasses import dataclass
 from os import uname
 from queue import Queue
 from threading import Event, Thread
 from time import sleep
+
+if linux := uname().sysname == "Linux":
+    import RPi.GPIO as GPIO
 
 
 class solenoid_thread(Thread):
@@ -28,8 +31,6 @@ class solenoid_thread(Thread):
         super().__init__()
 
         # Check if running in pi
-        if linux := uname().sysname == "Linux":
-            import RPi.GPIO as GPIO
         self.linux = linux
 
         # Stopping thread on signal
@@ -49,6 +50,9 @@ class solenoid_thread(Thread):
 
     def run(self) -> None:
         try:
+            if self.linux:
+                GPIO.setmode(GPIO.BCM)
+                GPIO.setup(19, GPIO.OUT)
             while self.run_event.is_set():
                 sleep(self.solenoid_settings.sleep_before_activation)
                 self.hardware_event.wait(

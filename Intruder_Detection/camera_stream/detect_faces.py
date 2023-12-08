@@ -1,11 +1,11 @@
 import re
-from threading import Thread, Event
 import traceback
 from dataclasses import dataclass
 from os import uname
 from pathlib import Path
 from queue import Queue
-from time import sleep, time
+from threading import Event, Thread
+from time import sleep
 from typing import Literal
 
 import cv2 as cv
@@ -13,6 +13,9 @@ import face_recognition
 import numpy as np
 from aiohttp.web_runner import GracefulExit
 from mjpeg_streamer import MjpegServer, Stream
+
+if linux := uname().sysname == "Linux":
+    from picamera2 import Picamera2
 
 
 class detect_and_stream_thread(Thread):
@@ -53,8 +56,6 @@ class detect_and_stream_thread(Thread):
         super().__init__()
 
         # Check if running in pi
-        if linux := uname().sysname == "Linux":
-            from picamera2 import Picamera2
         self.linux = linux
 
         # Stopping thread on signal
@@ -117,7 +118,6 @@ class detect_and_stream_thread(Thread):
         camera_height: int = camera_settings.camera_height,
         camera_fps: int = camera_settings.camera_fps,
     ) -> None:
-        
         self.camera_settings.camera_read = camera_read
         self.camera_settings.camera_width = camera_width
         self.camera_settings.camera_height = camera_height
@@ -133,9 +133,8 @@ class detect_and_stream_thread(Thread):
                 self.cap = Picamera2()
                 self.cap.preview_configuration.main.size = (camera_width, camera_height)
                 self.cap.preview_configuration.main.format = "RGB888"
-                self.cap.config("preview")
+                self.cap.configure("preview")
                 self.cap.start()
-
 
     def __set_stream__(
         self,
@@ -166,7 +165,6 @@ class detect_and_stream_thread(Thread):
 
     def run(self) -> None:
         frames_skipped = 0
-        time_per_frame = 1/self.camera_settings.camera_fps
         match self.read_from:
             case "Capture-OCV" | "Capture-Pi":
                 self.__set_camera__()
@@ -174,19 +172,18 @@ class detect_and_stream_thread(Thread):
         self.stream_server.start()
         try:
             while self.run_event.is_set():
-                start_time = time()
                 # Grab a single frame
                 match self.read_from:
                     case "Test":
                         unknown_image_dir = Path(
-                        str(Path(__file__).parent.absolute()) + "/Unknown/Unknown.jpg"
-                    )
+                            str(Path(__file__).parent.absolute())
+                            + "/Unknown/Unknown.jpg"
+                        )
                         frame = cv.imread(str(unknown_image_dir))
                     case "Capture-OCV":
                         _, frame = self.cap.read()
                     case "Capture-Pi":
                         frame = self.cap.capture_array()
-
 
                 frame = cv.flip(frame, 1)
 
@@ -260,15 +257,11 @@ class detect_and_stream_thread(Thread):
                     if (
                         any([i != "Unknown" for i in face_names])
                         and not self.hardware_event.is_set()
-                    ):  
+                    ):
                         self.name_queue.put(face_names)
                         self.hardware_event.set()
 
                 frames_skipped += 1
-                
-                # maintaining framerate
-                while (time() - start_time) <= time_per_frame:
-                    sleep(0.01)
         except Exception as e:
             if type(e) != GracefulExit:
                 traceback.print_exception(e)
