@@ -15,7 +15,8 @@
 
 ## Introduction
 
-Welcome to MFIDS (Multi-Faceted Intruder Identification System) - Your Partner in Digital Security!
+Welcome to MFIDS (Multi-Faceted Intruder Identification System) - Your Partner in Digital Security! made by Herbert and Adithya
+
 
 ## Purpose
 
