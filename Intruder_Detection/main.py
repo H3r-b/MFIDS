@@ -10,7 +10,7 @@ if __name__ == "__main__":
     name_queue = Queue()
 
     detect_thread = detect_faces.detect_and_stream_thread(
-        hardware_event=hardware, name_queue=name_queue, read_from="Capture-OCV"
+        hardware_event=hardware, name_queue=name_queue, read_from="Test"
     )
     solenoid_thread = solenoid.solenoid_thread(
         hardware_event=hardware, queue=name_queue

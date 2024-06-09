@@ -1,7 +1,7 @@
 import re
 import traceback
 from dataclasses import dataclass
-from os import uname
+from platform import system
 from pathlib import Path
 from queue import Queue
 from threading import Event, Thread
@@ -14,7 +14,7 @@ import numpy as np
 from aiohttp.web_runner import GracefulExit
 from mjpeg_streamer import MjpegServer, Stream
 
-if linux := uname().sysname == "Linux":
+if linux := system() == "Linux":
     from picamera2 import Picamera2
 
 
@@ -177,7 +177,7 @@ class detect_and_stream_thread(Thread):
                     case "Test":
                         unknown_image_dir = Path(
                             str(Path(__file__).parent.absolute())
-                            + "/Unknown/Unknown.jpg"
+                            + "/Unknown/Unknown.png"
                         )
                         frame = cv.imread(str(unknown_image_dir))
                     case "Capture-OCV":
