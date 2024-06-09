@@ -1,11 +1,11 @@
 import traceback
 from dataclasses import dataclass
-from os import uname
+from platform import system
 from queue import Queue
 from threading import Event, Thread
 from time import sleep
 
-if linux := uname().sysname == "Linux":
+if linux := system() == "Linux":
     import RPi.GPIO as GPIO
 
 
