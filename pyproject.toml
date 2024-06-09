@@ -17,7 +17,7 @@ django = "^4.2.6"
 django-crispy-forms = "^2.1"
 crispy-bootstrap4 = "^2023.1"
 whitenoise = {extras = ["brotli"], version = "^6.6.0"}
-gunicorn = "^21.2.0"
+gunicorn = "^22.0"
 
 [tool.poetry.group.mfids-detect]
 optional = true
