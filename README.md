@@ -11,7 +11,7 @@
 - [Key Features](#key-features)
 - [Getting Started](#getting-started)
 - [Contributing](#contributing)
-- [License](#license)
+
 
 ## Introduction
 
@@ -63,8 +63,5 @@ Install the following
 - crispy-bootstrap4 
 
 
-## License
 
-This project is licensed under the [MFIDS-Cheems.co] - see the [LICENSE](https://opensource.org/license/mit/https://opensource.org/license/mit/) 
-**P.S. its not licensed**
 
